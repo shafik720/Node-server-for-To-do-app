@@ -40,6 +40,22 @@ async function run() {
             const result = await userCollection.deleteOne(query);
             res.send(result);
         })
+
+        app.delete('/alltasks', async(req, res)=>{
+            
+            // const ids = req.body.ids;
+            const ids = req.body.ids.map(ObjectId);
+            console.log(ids);
+
+            // const query = {_id :ObjectId(ids)} ;
+            // const result = await userCollection.deleteMany(query);
+
+            // const result = await userCollection.deleteMany({_id: {$in:ids}});
+
+            const result = await userCollection.deleteMany({ _id: { $in: ids } });
+            // res.send(result);
+            res.json(result);            
+        })
     }
     finally { 
 
@@ -48,10 +64,6 @@ async function run() {
 
 run().catch(console.dir);
 
-
-app.get('/', (req, res) => {
-    res.send('hellow world');
-})
 
 
 app.listen(port,()=>{
