@@ -27,6 +27,12 @@ async function run() {
             res.send(result);
         })
         
+        app.get('/alltasks', async(req,res)=>{
+            const query = {};
+            const cursor = userCollection.find(query);
+            const result = await cursor.toArray();
+            res.send(result);
+        })
     }
     finally { 
 
@@ -36,10 +42,10 @@ async function run() {
 run().catch(console.dir);
 
 
-app.get('/', (req, res)=>{
-    const user = req.body;
-    res.send(user);
+app.get('/', (req, res) => {
+    res.send('hellow world');
 })
+
 
 app.listen(port,()=>{
     console.log('listening to port 5000');
