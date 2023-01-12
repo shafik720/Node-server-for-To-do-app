@@ -45,7 +45,6 @@ async function run() {
             
             // const ids = req.body.ids;
             const ids = req.body.ids.map(ObjectId);
-            console.log(ids);
 
             // const query = {_id :ObjectId(ids)} ;
             // const result = await userCollection.deleteMany(query);
@@ -55,6 +54,20 @@ async function run() {
             const result = await userCollection.deleteMany({ _id: { $in: ids } });
             // res.send(result);
             res.json(result);            
+        })
+
+        app.put('/alltasks/:id', async(req, res)=>{
+            const id = req.params.id;
+            const action = req.body;
+            const filter = {_id : ObjectId(id)};
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set : {
+                    action : action.action
+                }
+            }
+            const result = await userCollection.updateOne(filter, updatedDoc, options);
+            res.send(result);
         })
     }
     finally { 
