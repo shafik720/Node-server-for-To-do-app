@@ -70,6 +70,23 @@ async function run() {
             res.send(result);
         })
 
+        // task edit on popup 
+        app.put('/singleTaskEdit/:id', async(req, res)=>{
+            const id = req.params.id;
+            const body = req.body;
+            const filter = {_id : ObjectId(id)};
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set : {
+                    taskName : body.taskName,
+                    action : body.action,
+                    startTime : body.startTime
+                }
+            }
+            const result = await userCollection.updateOne(filter, updatedDoc, options);
+            res.send(result);
+        })
+
         app.get('/alltasks/:id', async(req,res)=>{
             const id = req.params.id;
             const query = {_id : ObjectId(id)};
